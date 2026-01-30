@@ -1,0 +1,5 @@
+---
+instance_name: "Foo instance"
+instance_domain: "localhost:3000"
+instance_schema: "https"
+tigerhome: "/tigerhome.html"

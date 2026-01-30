@@ -52,6 +52,7 @@ All operations are performed within the Mewduct repository:
 * `git submodule init`
 * `git submodule update`
 * Copy the files under `tigerroad/webroot/` into your public webroot
+* Copy `tigerroad/config/config.sample.yaml` to `tigerroad/config/config.yaml` and edit it
 
 ## Update
 

@@ -45,6 +45,7 @@ Mewduct TigerroadはMewductのwebroot以下のファイルを破壊しない。
 * `git submodule init`
 * `git submodule update`
 * `tigerroad/webroot/` 以下のファイルを公開ウェブルートにコピーする
+* `tigerroad/config/config.sample.yaml` を `tigerroad/config/config.yaml` にコピーして編集
 
 ## Update
 
