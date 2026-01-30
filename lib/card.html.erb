@@ -1,0 +1,15 @@
+<div class="video_card" data-carduser="<%= meta["user"] %>" data-cardmedia="<%= meta["media_id"] %>">
+  <a href="/video/<%= h meta["user"] %>/<%= h meta["media_id"] %>" class="video_card_link">
+    <img src="/media/<%= h meta["user"] %>/<%= h meta["media_id"] %>/thumbnail.webp" loading="lazy">
+    <span class="video_card_duration"><%= /^\d+$/.match?(meta["duration"]) ? "#{meta["duration"]}s" : meta["duration"].sub(/^0+/, "") %></span>
+  </a>
+  <div class="video_card_title" title="<%= h meta["title"] %>"><%= h meta["title"] %></div>
+  <div class="video_card_meta">
+    <a href="/profile/<%= h meta["user"] %>" class="user_link">
+      <span class="video_card_user"><%= h meta["username"] %></span>
+    </a>
+    <span class="video_card_date">
+      <time><%= Time.at(meta["created_at"]).strftime("%Y-%m-%d") %></time>
+    </span>
+  </div>
+</div>

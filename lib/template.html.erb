@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+% case variant
+% when "index"
+    <title><%= h @instance_name %> / Mewduct Tigerroad</title>
+% when "user"
+    <title><%= h usermeta["username"] %> - <%= h @instance_name %> / Mewduct Tigerroad</title>
+% when "play"
+    <title><%= h titlemeta["title"] %> - <%= h @instance_name %> / Mewduct Tigerroad</title>
+% end
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+% case variant
+% when "index"
+    <meta property="og:title" content="<%= h @instance_name %>" />
+    <meta property="og:description" content="Mewduct Tigerroad is a beautiful small video CMS." />
+% when "user"
+    <meta property="og:title" content="<%= h usermeta["username"] %>" />
+% when "play"
+    <meta property="og:title" content="<%= h titlemeta["title"] %>" />
+    <meta property="og:description" content="<%= h titlemeta %>" />
+% end
+    <script src="/config.js"></script>
+    <script src="/settings.mjs" defer="defer" type="module"></script>
+    <link rel="stylesheet" type="text/css" href="/mewduct.css" />
+% case variant
+% when "index"
+    <script src="/tigerroad-home.mjs" type="module"></script>
+    <script type="application/json" id="HomeVideosJSON">
+      <%= json_embed @homemeta %>
+    </script>
+% when "user"
+    <script src="/tigerroad-user.mjs" type="module"></script>
+    <script type="application/json" id="UserVideosJSON">
+      <%= json_embed uservideos %>
+    </script>
+% when "play"
+    <script src="https://cdn.plyr.io/3.8.3/plyr.js"></script>
+    <script src="/tigerroad-play.mjs" type="module"></script>
+    <script src="/reaction.mjs" type="module"></script>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.8.3/plyr.css" />
+    <script type="application/json" id="VideoMetaJSON">
+      <%= json_embed titlemeta %>
+    </script>
+    <script type="application/ld+json">
+      <%= json_ld titlemeta %>
+    </script>
+% end
+  </head>
+  <body>
+    <div id="MainScreen">
+      <header id="TitleBanner">
+        <div id="TitleBannerLeft">
+          <a href="<%= @config["tigerhome"] || "/" %>">
+            <h1><img src="/assets/mewduct-logo.svg" id="AppLogo" />MewDuct</h1>
+          </a>
+        </div>
+        <div id="TitleBannerCenter"></div>
+        <div id="TitleBannerRight"><span id="SettingsGear">⚙️</span></div>
+      </header>
+% case variant
+% when "index"
+      <h2 id="InstanceName"><%= @instance_name %></h2>
+      <nav>
+        <h2>Recent videos</h2>
+        <div id="CardBox">
+% @homemeta.each do |meta|
+          <%= video_card(meta) %>
+% end
+        </div>
+        <h2>Recent Users</h2>
+        <div id="UsersBox">
+% @usersmeta.each do |meta|
+          <%= user_card(meta) %>
+% end
+        </div>
+      </nav>
+% when "user"
+      <div id="UserBanner">
+        <img class="usericon_small" id="UserBannerIcon" src="/user/<%= h @user_id %>/icon.webp" />
+        <span class="username_h" id="BannerUserName"><%= h usermeta["username"] %></span>
+      </div>
+      <section id="UserDescription">
+        <textarea id="UserDescriptionText" rows="4"><%= h usermeta["description"] %></textarea>
+      </section>
+      <section id="UserVideos">
+        <h2>Uploaded videos</h2>
+        <div class="card_box" id="UserVideosBox">
+% uservideos.each do |meta|
+          <%= video_card(meta) %>
+% end
+        </div>
+      </section>
+      <section id="UserPlaylists">
+        <h2>Their playlists</h2>
+        <div id="UserPlaylistsBox"></div>
+      </section>
+% when "play"
+      <div id="PlayerView">
+        <div id="VideoArea">
+          <video id="PlyrVideo" preload="metadata" playsinline controls ></video>
+        </div>
+        <section id="VideoDescription">
+          <h2 id="VideoTitle"><%= h titlemeta["title"] %></h2>
+          <div>
+            <img id="UploadUserIcon" class="usericon_small" src="/user/<%= h @user_id %>/icon.webp" />
+            <span id="UploadUser"><a href="/profile/<%= h @user_id %>"><%= @usermeta["username"] %></a></span>
+            <span id="UploadTS">
+            Uploaded at: <time id="UploadTSTime"><%= Time.at(titlemeta["created_at"]).strftime("%Y-%m-%d %H:%M") %></span></time>
+          </div>
+          <section id="VideoReaction">
+            <button class="reaction_button" data-reactiontype="good">👍️</button>
+            <button class="reaction_button" data-reactiontype="favorite">⭐️</button>
+            <button class="reaction_button" data-reactiontype="love">♥️</button>
+            <span id="LikeCount"></span>
+            <div id="NegativeReaction">
+              <button class="reaction_button" data-reactiontype="boo" data-negative="yes">👎️</button>
+            </div>
+          </section>
+          <textarea id="VideoDescriptionText" readonly="readonly" rows="8">
+            <%= h titlemeta["description"] %>
+          </textarea>
+          <section id="PlayerAdditionalSection1"></section>
+          <section id="PlayerAdditionalSection2"></section>
+        </section>
+      </div>
+% end
+    </div>
+    <section id="SettingsScreen">
+      <div class="modal_internal">
+        <h2>Settings</h2>
+        <form id="SettingsForm">
+          <fieldset>
+            <legend>User Settings</legend>
+            <h3>Language</h3>
+            <p>e.g. <code>ja, en, fr</code></p>
+            <input type="text" size="24" name="prefer_language" /><br />
+          </fieldset>
+          <div class="right thin_margin">
+            <button type="button" id="SettingsBtnCancel" class="form_btn form_cancel">Cancel</button>
+            <button type="submit" class="form_btn form_submit">Save</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>
