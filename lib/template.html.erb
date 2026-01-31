@@ -11,15 +11,25 @@
 % end
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta property="og:site_name" content="<%= h @instance_name %> / Mewduct Tigerroad">
+    <meta property="og:url" content="<%= [[(@config["instance_schema"] || "https"), "://", @config["instance_domain"]].join, @this_path].join("/") %>" />
 % case variant
 % when "index"
     <meta property="og:title" content="<%= h @instance_name %>" />
     <meta property="og:description" content="Mewduct Tigerroad is a beautiful small video CMS." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="<%= [[(@config["instance_schema"] || "https"), "://", @config["instance_domain"]].join, "assets/mewduct-logo.svg"].join("/") %>" />
 % when "user"
     <meta property="og:title" content="<%= h usermeta["username"] %>" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:image" content="<%= [[(@config["instance_schema"] || "https"), "://", @config["instance_domain"]].join, "user", @user_id, "icon.webp"].join("/") %>" />
 % when "play"
     <meta property="og:title" content="<%= h titlemeta["title"] %>" />
     <meta property="og:description" content="<%= h titlemeta["description"] %>" />
+    <meta property="og:type" content="video" />
+    <meta property="og:image" content="<%= [[(@config["instance_schema"] || "https"), "://", @config["instance_domain"]].join, "media", @user_id, @media_id, "thumbnail.webp"].join("/") %>" />
+    <meta property="og:video:duration" content="<%= get_duration_sec titlemeta["duration"] %>" />
+    <meta property="og:video:release_date" content="<%= Time.at(titlemeta["created_at"]).iso8601 %>" />
 % end
     <script src="/config.js"></script>
     <script src="/settings.mjs" defer="defer" type="module"></script>

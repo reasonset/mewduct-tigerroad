@@ -21,6 +21,7 @@ class TigerroadHome
     @homemeta = JSON.load File.read json
     @usersmeta = JSON.load File.read users
     @outfile = File.join(fp, (ENV["TIGERROAD_INDEX_FILENAME"] || "tigerhome.html"))
+    @this_path = ""
 
     setup
   end

@@ -23,6 +23,7 @@ class TigerroadUpdate
 
     @titlemeta = JSON.load File.read fp
     @usermeta = JSON.load File.read File.join(@webroot, "user", @user_id, "usermeta.json")
+    @this_path = ["video", @user_id, @media_id].join("/")
   end
 
   def read_titlemeta

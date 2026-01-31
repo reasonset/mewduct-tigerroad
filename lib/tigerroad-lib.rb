@@ -21,6 +21,15 @@ module TigerroadLib
     ERB.new(USERCARD_TEMPLATE).result(binding)
   end
 
+  def get_duration_sec(duration_str)
+    dur = duration_str.split(":").map(&:to_i).reverse
+    dur_s = dur[0]
+    dur_s += (dur[1] || 0) * 60
+    dur_s += (dur[2] || 0) * 60 * 60
+
+    dur_s
+  end
+
   def json_embed data
     JSON.dump(data).gsub(/[&><]/) do |s|
       {'&' => '\u0026', '>' => '\u003e', '<' => '\u003c'}[s]

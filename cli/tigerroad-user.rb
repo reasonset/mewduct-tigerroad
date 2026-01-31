@@ -22,6 +22,7 @@ class TigerroadUser
     end
 
     setup
+    @this_path = ["profile", @user_id].join("/")
   end
 
   def main
