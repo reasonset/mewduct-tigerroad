@@ -29,7 +29,7 @@
     <meta property="og:type" content="video" />
     <meta property="og:image" content="<%= [[(@config["instance_schema"] || "https"), "://", @config["instance_domain"]].join, "media", @user_id, @media_id, "thumbnail.webp"].join("/") %>" />
     <meta property="og:video:duration" content="<%= get_duration_sec titlemeta["duration"] %>" />
-    <meta property="og:video:release_date" content="<%= Time.at(titltemeta["original_released_at"] || titlemeta["created_at"]).iso8601 %>" />
+    <meta property="og:video:release_date" content="<%= Time.at(titlemeta["original_released_at"] || titlemeta["created_at"]).iso8601 %>" />
 % end
     <script src="/config.js"></script>
     <script src="/settings.mjs" defer="defer" type="module"></script>
